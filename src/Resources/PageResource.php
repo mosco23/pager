@@ -1,17 +1,24 @@
 <?php
 
-namespace Mosco\Pager\Resources;
+namespace App\Filament\Resources;
 
 use App\Filament\Resources\PageResource\Pages;
+use App\Filament\Resources\PageResource\RelationManagers;
 use App\Filament\Resources\PageResource\RelationManagers\SectionsRelationManager;
 use App\Models\Page;
+use Filament\Forms;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PageResource extends Resource
 {
@@ -23,21 +30,43 @@ class PageResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('template_id')
-                    ->relationship('template', 'name')
-                    ->preload()
-                    ->searchable(),
-                TextInput::make('slug')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('description'),
+                Card::make([
+                    Select::make('template_id')
+                        ->relationship('template', 'name')
+                        ->preload()
+                        ->searchable(),
+                    TextInput::make('slug')
+                        ->required()
+                        ->maxLength(255),
+                    TextInput::make('name')
+                        ->required()
+                        ->maxLength(255),
+                    TextInput::make('title')
+                        ->required()
+                        ->maxLength(255),
+                    TextInput::make('description'),
+                    Repeater::make('sections')
+                        ->relationship('pageSections')
+                        ->schema([
+                            Select::make('section_id')
+                                ->relationship('section', 'name')
+                                ->schema([]),
+                            // TextInput::make('name')
+                            //     ->required()
+                            //     ->maxLength(255),
+                            // TextInput::make('vue')
+                            //     ->required()
+                            //     ->maxLength(255),
+                            // TextInput::make('title')
+                            //     ->maxLength(255),
+                            // TextInput::make('subtitle'),
+                            // TextInput::make('description'),
+                            Toggle::make('active')
+                        ])
+                        ->orderable('rang')
 
+            
+                ])
             ]);
     }
 

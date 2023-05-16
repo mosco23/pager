@@ -1,6 +1,6 @@
 <?php
 
-namespace Mosco\Pager\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,11 +16,13 @@ class PageSection extends Model
         'active'
     ];
 
-    public function page(){
+    public function page()
+    {
         return $this->belongsTo(Page::class);
     }
 
-    public function section(){
+    public function section()
+    {
         return $this->belongsTo(Section::class);
     }
 }

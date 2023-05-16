@@ -1,6 +1,6 @@
 <?php
 
-    namespace Mosco\Pager\Models;
+    namespace App\Models;
 
     use Illuminate\Database\Eloquent\Factories\HasFactory;
     use Illuminate\Database\Eloquent\Model;
@@ -19,6 +19,11 @@
         
         public  function sections(){
             return $this->belongsToMany(Section::class, 'page_sections');
+        }
+
+        public function pageSections()
+        {
+            return $this->hasMany(PageSection::class);
         }
 
         
